@@ -58,7 +58,7 @@ void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]
 		p_.leftBottom.x = (int)((pos_.x - tempV.x) / BLOCK_SIZE);
 		p_.leftBottom.y = (int)(((pos_.y + size_.h) - 1)/ BLOCK_SIZE);
 
-		if (maptipmap[p_.leftTop.y][p_.leftTop.x] != koteiBlock || maptipmap[p_.leftBottom.y][p_.leftBottom.x] != koteiBlock) {
+		if (maptipmap[p_.leftTop.y][p_.leftTop.x] != koteiBlock && maptipmap[p_.leftBottom.y][p_.leftBottom.x] != koteiBlock) {
 			vel_.x = -4.0f;
 		}
 		else {
@@ -72,7 +72,7 @@ void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]
 		p_.rightBottom.x = (int)((((pos_.x + size_.w) +  tempV.x) - 1) / BLOCK_SIZE);
 		p_.rightBottom.y = (int)(((pos_.y + size_.h) - 1) / BLOCK_SIZE);
 
-		if (maptipmap[p_.rightTop.y][p_.rightTop.x] != koteiBlock || maptipmap[p_.rightBottom.y][p_.rightBottom.x] != koteiBlock) {
+		if (maptipmap[p_.rightTop.y][p_.rightTop.x] != koteiBlock && maptipmap[p_.rightBottom.y][p_.rightBottom.x] != koteiBlock) {
 			vel_.x = 4.0f;
 		}
 		else {
@@ -92,7 +92,6 @@ void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]
 	}
 
 	pos_.y += vel_.y;
-	/*pos_.x += vel_.x;*/
 
 	//二回目のマップ座標を取得
 	p_.leftTop.x = (int)(pos_.x / BLOCK_SIZE);
@@ -133,7 +132,7 @@ void Player::Update() {
 	}
 
 	//横制限
-	if (pos_.x <= 0) {
+	if (pos_.x <= 0 - size_.w) {
 		pos_.x = kWindowWidth - size_.w / 2;
 	}
 	if (pos_.x >= kWindowWidth) {

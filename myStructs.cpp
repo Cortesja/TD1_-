@@ -19,3 +19,10 @@ Matrix3x3 MakeRotateMatrix(float theta) {
 
 	return result;
 }
+
+float convertToSec(clock_t time) {
+	return ((float)time / CLOCKS_PER_SEC);
+}
+float getElapsedTime(clock_t time) {
+	return convertToSec((clock() - time));
+}
