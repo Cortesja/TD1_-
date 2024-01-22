@@ -1,6 +1,7 @@
 #pragma once
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <time.h>
 
 const int kWindowHeight = 704;
 const int kWindowWidth = 1280;
@@ -71,8 +72,19 @@ typedef struct Maptip final {
 	int map4[22][40];
 	int imgBlock[10];
 	int timer;
-	float blockSize;
 }Maptip;
+
+typedef struct MaptipBlock final {
+	Vector2 pos;
+	int color;
+	int R_;
+	int G_;
+	int B_;
+	int A_;
+}MaptipBlock;
 
 Matrix3x3 MakeTranslateRotateMatrix(Vector2 translate, float theta);
 Matrix3x3 MakeRotateMatrix(float theta);
+
+float convertToSec(clock_t time);
+float getElapsedTime(clock_t time);
