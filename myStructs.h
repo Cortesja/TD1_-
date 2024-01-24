@@ -24,8 +24,12 @@ enum scene {
 };
 
 enum MapLegend {
-	empty,
-	koteiBlock
+	empty, //0 
+	koteiBlock,//1
+	kagi,//2
+	tobira,//3
+	togeUp,//4
+	togeDown//5
 };
 
 typedef struct Vector2 {
@@ -71,7 +75,18 @@ typedef struct Maptip final {
 	int map3[22][40];
 	int map4[22][40];
 	int imgBlock[10];
+	int imgKagi[4];
+	int imgTobira[8];
+	int imgToge[6];
 	int timer;
+	bool kagiGet[2];
+	bool stageClear;
+
+	int effTimer_;
+	int max_;
+	int min_;
+	int randx
+
 }Maptip;
 
 typedef struct MaptipBlock final {

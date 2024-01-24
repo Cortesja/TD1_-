@@ -1,18 +1,25 @@
 #pragma once
-#include "myStructs.h"
 #include "Color.h"
+#include "Camera.h"
 
-class Backround : Color
+class Backround 
 {
 public:
 	Vector2 pos_[3];
 	int img_[3];
 	int timer_;
 	bool night_;
+
+	Camera* camera;
+	Color* color;
+
 public:
 	Backround();
 	~Backround();
-	void Update(float timeElapsed);
+
+	Vector2 GetPos();
+
+	void Update(float timeElapsed, bool &isHit);
 	void Draw();
 };
 
