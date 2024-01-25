@@ -5,7 +5,7 @@
 #include "Backround.h"
 #include "MapTip.h"
 #include "Light.h"
-#include "Color.h"
+#include "MaptipBlock.h"
 
 const char kWindowTitle[] = "GC1C_07_コーテスジャレッドアレン";
 
@@ -26,17 +26,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Backround* haikei1 = new Backround();
 
 	Maptip maptip = { 0 };
-	MaptipBlock block[bMapY][bMapX];
+	MaptipBlock* block[bMapY][bMapX];
+
+	for (int y = 0; y < bMapY; y++) {
+		for (int x = 0; x < bMapX; x++) {
+			block[y][x] = new MaptipBlock(y, x);
+		}
+	}
 
 	initializeMaptip(maptip);
-	initializeMap(maptip.map1, maptip.map2, maptip.map3, block);
+	initializeMap(maptip.map1, maptip.map2, maptip.map3);
 
 	clock_t startingTime = clock();
 	float timeElapsed = 0;
-
-	bool night = false;
-	//bool isShake = false;
-	int timer = 0;
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -59,7 +61,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		case gameStage1:
 
 			if (keys[DIK_1] && !preKeys[DIK_1]) {
-				night = true;
 				haikei1->night_ = true;
 			}
 
@@ -75,18 +76,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			haikei1->Update(timeElapsed, player->isHit_);
 			haikei1->Draw();
 
-			blockUpdate(timeElapsed, night, timer, block);
-
-			if (haikei1->night_) {
-				for (int y = 0; y < bMapY; y++) {
-					for (int x = 0; x < bMapX; x++) {
-						block[y][x].color = ChkVisible(playerLight->size_.w, player->GetPosition(), block[y][x].pos);
-					}
+			for (int y = 0; y < bMapY; y++) {
+				for (int x = 0; x < bMapX; x++) {
+					block[y][x]->Update(timeElapsed, haikei1->night_);
+					block[y][x]->Draw(maptip.map1, maptip.imgBlock, y, x);
 				}
 			}
-
-			DrawMaptip(maptip.map1, maptip.imgBlock, block, maptip);
-
+        
 			player->ToScreen();
 			
 			Novice::SetBlendMode(BlendMode::kBlendModeAdd);
