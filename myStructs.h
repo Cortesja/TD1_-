@@ -74,15 +74,6 @@ typedef struct Maptip final {
 	int timer;
 }Maptip;
 
-typedef struct MaptipBlock final {
-	Vector2 pos;
-	int color;
-	int R_;
-	int G_;
-	int B_;
-	int A_;
-}MaptipBlock;
-
 Matrix3x3 MakeTranslateRotateMatrix(Vector2 translate, float theta);
 Matrix3x3 MakeRotateMatrix(float theta);
 

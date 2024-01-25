@@ -7,7 +7,7 @@ void initializeMaptip(Maptip &maptip) {
 	maptip.timer = 0;
 }
 
-void initializeMap(int map1[bMapY][bMapX], int map2[bMapY][bMapX], int map3[bMapY][bMapX], MaptipBlock block[bMapY][bMapX]) {
+void initializeMap(int map1[bMapY][bMapX], int map2[bMapY][bMapX], int map3[bMapY][bMapX]) {
 
 	int Map1[bMapY][bMapX] = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -91,16 +91,6 @@ void initializeMap(int map1[bMapY][bMapX], int map2[bMapY][bMapX], int map3[bMap
 			map1[y][x] = Map1[y][x];
 			map2[y][x] = Map2[y][x];
 			map3[y][x] = Map3[y][x];
-
-			block[y][x].pos.x = (float)x * BLOCK_SIZE;
-			block[y][x].pos.y = (float)y * BLOCK_SIZE;
-
-			block[y][x].R_ = 255;
-			block[y][x].G_ = 255;
-			block[y][x].B_ = 255;
-			block[y][x].A_ = 255;
-
-			block[y][x].color = 0xFFFFFFFF;
 		}
 	}
 }
@@ -132,56 +122,5 @@ int ChkVisible(float radius, Vector2 playerPos, Vector2 objectPos) {
 	}
 	else {
 		return 0x888888FF;
-	}
-}
-
-void blockUpdate(float timeElapsed, bool &night, int &timer, MaptipBlock block[bMapY][bMapX]) {
-	if (timeElapsed >= 40.0f) {
-		night = true;
-	}
-
-	if (!night) {
-		timer += 1;
-	}
-
-	if (!night) {
-		if (timer % 10 == 0) {
-			if (!night) {
-				for (int y = 0; y < bMapY; y++) {
-					for (int x = 0; x < bMapX; x++) {
-						if (timer % 10 == 0) {
-							block[y][x].R_ -= 1;
-							block[y][x].G_ -= 1;
-							block[y][x].B_ -= 1;
-						}
-					}
-				}
-			}
-		}
-	}
-	else {
-		for (int y = 0; y < bMapY; y++) {
-			for (int x = 0; x < bMapX; x++) {
-				block[y][x].R_ = 0;
-				block[y][x].G_ = 0;
-				block[y][x].B_ = 0;
-			}
-		}
-	}
-	
-	for (int y = 0; y < bMapY; ++y) {
-		for (int x = 0; x < bMapX; ++x) {
-			block[y][x].color = (block[y][x].R_ << 24) + (block[y][x].G_ << 16) + (block[y][x].B_ << 8) + block[y][x].A_;
-		}
-	}
-}
-
-void DrawMaptip(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock block[bMapY][bMapX]) {
-	for (int y = 0; y < bMapY; y++) {
-		for (int x = 0; x < bMapX; x++) {
-			if (map[y][x] == koteiBlock) {
-				Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, imgBlock[0], 1.0f, 1.0f, 0.0f, block[y][x].color);
-			}
-		}
 	}
 }
