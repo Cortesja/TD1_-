@@ -14,20 +14,22 @@ private:
 
 	int radius_;
 	Size size_;
+	int jumpCount_;
 	int speed_;
 	int img_[4];
 	int imgDeath[4];
 	int color_;
 
-	Camera* main_;
-
 public:
+	bool isHit_;
+	bool isAlive_;
+
 	Player();
 	~Player();
 	void ToScreen();
 
 	Vector2 GetPosition();
 	void MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]);
-	void Update();
+	void Update(int maptipmap[bMapY][bMapX], Maptip &maptip);
 	void Draw();
 };

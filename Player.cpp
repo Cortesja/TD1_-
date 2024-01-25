@@ -16,14 +16,17 @@ Player::Player() {
 	accel_ = { 0.0f, 0.8f };
 	vel_ = { 4.0f , 0.0f };
 
-	img_[0] = Novice::LoadTexture("./resources/player/player.png");
+	img_[0] = Novice::LoadTexture("./resources/player/player.png"), imgDeath[0] = Novice::LoadTexture("./resources/player/playerDeath.png"),
+		imgDeath[1] = Novice::LoadTexture("./resources/player/playerDeath1.png");
 	color_ = 0xFFFFFFFF;
 
-	main_ = new Camera();
+	isHit_ = false;
+	isAlive_ = true;
+	jumpCount_ = 0;
 }
 
 Player::~Player() {
-	delete main_;
+
 }
 
 Vector2 Player::GetPosition() {
@@ -51,12 +54,12 @@ void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]
 
 	//左右移動
 	 
-	if (keys[DIK_A]) {
+	if (keys[DIK_A] && isAlive_ == true) {
 		p_.leftTop.x = (int)((pos_.x - tempV.x) / BLOCK_SIZE);
 		p_.leftTop.y = (int)(pos_.y / BLOCK_SIZE);
 
 		p_.leftBottom.x = (int)((pos_.x - tempV.x) / BLOCK_SIZE);
-		p_.leftBottom.y = (int)(((pos_.y + size_.h) - 1)/ BLOCK_SIZE);
+		p_.leftBottom.y = (int)(((pos_.y + size_.h) - 1) / BLOCK_SIZE);
 
 		if (maptipmap[p_.leftTop.y][p_.leftTop.x] != koteiBlock && maptipmap[p_.leftBottom.y][p_.leftBottom.x] != koteiBlock) {
 			vel_.x = -4.0f;
@@ -65,7 +68,7 @@ void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]
 			vel_.x = 0.0f;
 		}
 	}
-	else if (keys[DIK_D]) {
+	else if (keys[DIK_D] && isAlive_ == true) {
 		p_.rightTop.x = (int)((((pos_.x + size_.w) + tempV.x) - 1) / BLOCK_SIZE);
 		p_.rightTop.y = (int)(pos_.y / BLOCK_SIZE);
 
@@ -87,8 +90,9 @@ void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]
 	vel_.y += accel_.y;
 
 	//ジャンプ
-	if (keys[DIK_SPACE] && !preKeys[DIK_SPACE]) {
+	if (keys[DIK_SPACE] && !preKeys[DIK_SPACE] && jumpCount_ == 0 && isAlive_ == true) {
 		vel_.y = -11.0f;
+		//jumpCount_ += 1;
 	}
 
 	pos_.y += vel_.y;
@@ -106,26 +110,15 @@ void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]
 	p_.rightBottom.x = (int)(((pos_.x + size_.w) - 1) / BLOCK_SIZE);
 	p_.rightBottom.y = (int)(((pos_.y + size_.h) - 1) / BLOCK_SIZE);
 
-	//マップチップの当たり判定
-
-	if (maptipmap[p_.leftBottom.y][p_.leftBottom.x] == koteiBlock || maptipmap[p_.rightBottom.y][p_.rightBottom.x] == koteiBlock) {
-		vel_.y = 0;
-		pos_.y = floorf((float)p_.leftBottom.y * BLOCK_SIZE - size_.h);
-	}
-	
-	if (maptipmap[p_.leftTop.y][p_.leftTop.x] == koteiBlock || maptipmap[p_.rightTop.y][p_.rightTop.x] == koteiBlock) {
-		vel_.y = 0;
-		pos_.y = floorf((float)p_.leftTop.y * BLOCK_SIZE + size_.h);
-	}
-
 	pos_.x += vel_.x;
 
 }
 
-void Player::Update() {
+void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
+
 	//縦横制限
 	if (pos_.y >= kWindowHeight - size_.h) {
-		pos_.y = 0 + size_.h;
+		pos_.y = 0;
 	}
 	if (pos_.y <= 0 - size_.h) {
 		pos_.y = kWindowHeight - size_.h;
@@ -138,6 +131,46 @@ void Player::Update() {
 	if (pos_.x >= kWindowWidth) {
 		pos_.x = 0;
 	}
+
+	//マップチップの当たり判定
+
+	//-------------- koteiBlock ---------------
+	if (maptipmap[p_.leftBottom.y][p_.leftBottom.x] == koteiBlock || maptipmap[p_.rightBottom.y][p_.rightBottom.x] == koteiBlock) {
+		vel_.y = 0;
+		jumpCount_ = 0;
+		pos_.y = floorf((float)p_.leftBottom.y * BLOCK_SIZE - size_.h);
+	}
+	if (maptipmap[p_.leftTop.y][p_.leftTop.x] == koteiBlock || maptipmap[p_.rightTop.y][p_.rightTop.x] == koteiBlock) {
+		vel_.y = 0;
+		pos_.y = floorf((float)p_.leftTop.y * BLOCK_SIZE + size_.h);
+	}
+	//-----------------------------------------
+
+	//--------------- kagi -------------------
+	if (maptipmap[p_.leftTop.y][p_.leftTop.x] == kagi || maptipmap[p_.leftBottom.y][p_.leftBottom.x] == kagi) {
+		maptip.kagiGet[0] = true;
+	}
+	//----------------------------------------
+
+	//--------------- toge ------------------
+	if (maptipmap[p_.leftBottom.y][p_.leftBottom.x] == togeUp || maptipmap[p_.rightBottom.y][p_.rightBottom.x] == togeUp) {
+		vel_.y = 0;
+		pos_.y = floorf((float)p_.leftBottom.y * BLOCK_SIZE - size_.h);
+
+		if (isAlive_) {
+			isHit_ = true;
+			isAlive_ = false;
+		}
+	}
+	if (maptipmap[p_.leftTop.y][p_.leftTop.x] == togeDown || maptipmap[p_.rightTop.y][p_.rightTop.x] == togeDown) {
+		vel_.y = 0;
+		pos_.y = floorf((float)p_.leftTop.y * BLOCK_SIZE + size_.h);
+
+		if (isAlive_) {
+			isHit_ = true;
+			isAlive_ = false;
+		}
+	}
 }
 
 void Player::ToScreen() {
@@ -145,13 +178,18 @@ void Player::ToScreen() {
 }
 
 void Player::Draw() {
+	if (isAlive_) {
 	Novice::DrawSprite((int)pos_.x, (int)pos_.y, img_[0], 1.0f, 1.0f, 0.0f, color_);
+	}
+	else {
+		Novice::DrawSprite((int)pos_.x, (int)pos_.y, imgDeath[0], 1.0f, 1.0f, 0.0f, color_);
+	}
 
-	Novice::ScreenPrintf(42, 42, "p_.leftTop[%d][%d] ", p_.leftTop.y, p_.leftTop.x);
-	Novice::ScreenPrintf(42, 62, "p_.leftBottom[%d][%d] ", p_.leftBottom.y, p_.leftBottom.x);
-	Novice::ScreenPrintf(242, 42, "p_.rightTop[%d][%d] ", p_.rightTop.y, p_.rightTop.x);
-	Novice::ScreenPrintf(242, 62, "p_.rightBottom[%d][%d] ", p_.rightBottom.y, p_.rightBottom.x);
+	//Novice::ScreenPrintf(42, 42, "p_.leftTop[%d][%d] ", p_.leftTop.y, p_.leftTop.x);
+	//Novice::ScreenPrintf(42, 62, "p_.leftBottom[%d][%d] ", p_.leftBottom.y, p_.leftBottom.x);
+	//Novice::ScreenPrintf(242, 42, "p_.rightTop[%d][%d] ", p_.rightTop.y, p_.rightTop.x);
+	//Novice::ScreenPrintf(242, 62, "p_.rightBottom[%d][%d] ", p_.rightBottom.y, p_.rightBottom.x);
 
-	Novice::ScreenPrintf(42, 80, "pos_.x = %f", pos_.x);
-	Novice::ScreenPrintf(42, 100, "pos_.y = %f", pos_.y);
+	//Novice::ScreenPrintf(42, 80, "pos_.x = %f", pos_.x);
+	//Novice::ScreenPrintf(42, 100, "pos_.y = %f", pos_.y);
 }

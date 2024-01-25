@@ -65,7 +65,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 
 			player->MovePlayer(keys, preKeys, maptip.map1);
-			player->Update();
+			player->Update(maptip.map1, maptip);
 
 			/////////////
 			//描画処理　　↓↓↓↓↓↓↓↓
@@ -73,7 +73,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			timeElapsed = getElapsedTime(startingTime);
 
 			Novice::SetBlendMode(BlendMode::kBlendModeNormal);
-			haikei1->Update(timeElapsed);
+			haikei1->Update(timeElapsed, player->isHit_);
 			haikei1->Draw();
 
 			for (int y = 0; y < bMapY; y++) {
@@ -82,7 +82,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					block[y][x]->Draw(maptip.map1, maptip.imgBlock, y, x);
 				}
 			}
-
+        
 			player->ToScreen();
 			
 			Novice::SetBlendMode(BlendMode::kBlendModeAdd);
@@ -92,7 +92,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			Novice::SetBlendMode(BlendMode::kBlendModeNone);
 			player->Draw();
-			Novice::ScreenPrintf(42, 120, "time: %f", timeElapsed);
+			//Novice::ScreenPrintf(42, 120, "time: %f", timeElapsed);
 
 			/////////////
 			//描画処理　　↑↑↑↑↑↑↑↑

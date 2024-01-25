@@ -4,17 +4,17 @@
 class Color
 {
 public:
-	int R_;
-	int G_;
-	int B_;
-	int A_;
+	int R_ = 0;
+	int G_ = 0;
+	int B_ = 0;
+	int A_ = 0;
 
 	int maxR_ = 255;
 	int maxG_ = 255;
 	int maxB_ = 255;
 	int maxA_ = 255;
 
-	int colorHandler_;
+	int colorHandler_ = 0;
 
 public:
 
