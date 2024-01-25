@@ -85,7 +85,9 @@ typedef struct Maptip final {
 	int effTimer_;
 	int max_;
 	int min_;
-	int randx
+	int randx_;
+	int randy_;
+	bool isShake_;
 
 }Maptip;
 
