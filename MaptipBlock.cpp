@@ -5,7 +5,13 @@ MaptipBlock::MaptipBlock(int y, int x) {
 	pos_.y = (float)y * BLOCK_SIZE;
 	pos_.x = (float)x * BLOCK_SIZE;
 
-	//color->colorHandler_ = 0xFFFFFFFF;
+	color = new Color;
+
+	color->R_ = 255;
+	color->G_ = 255;
+	color->B_ = 255;
+
+	color->colorHandler_ = 0xFFFFFFFF;
 
 	timer_ = 0;
 }
@@ -15,7 +21,7 @@ MaptipBlock::~MaptipBlock() {
 }
 
 void MaptipBlock::Update(float timeElasped, bool &night) {
-	if (timeElasped >= 40.0f) {
+	if (timeElasped >= 43.0f) {
 		night = true;
 	}
 
