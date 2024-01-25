@@ -35,7 +35,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	float timeElapsed = 0;
 
 	bool night = false;
-	bool isShake = false;
+	//bool isShake = false;
 	int timer = 0;
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -85,7 +85,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 
-			DrawMaptip(maptip.map1, maptip.imgBlock, block, maptip, player->isHit_);
+			DrawMaptip(maptip.map1, maptip.imgBlock, block, maptip);
 
 			player->ToScreen();
 			

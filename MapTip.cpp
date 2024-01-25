@@ -251,7 +251,7 @@ void blockUpdate(float timeElapsed, bool &night, int &timer, MaptipBlock block[b
 //	}
 //}
 
-void DrawMaptip(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock block[bMapY][bMapX], Maptip maptip, bool isHit) {
+void DrawMaptip(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock block[bMapY][bMapX], Maptip maptip) {
 	for (int y = 0; y < bMapY; y++) {
 		for (int x = 0; x < bMapX; x++) {
 			//////////////////////////
