@@ -57,6 +57,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		case gameColorSelect:
 			break; //gameColorSelect
 		case gameStage1:
+			timeElapsed = getElapsedTime(startingTime);
 
 			if (keys[DIK_1] && !preKeys[DIK_1]) {
 				night = true;
@@ -69,7 +70,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			/////////////
 			//描画処理　　↓↓↓↓↓↓↓↓
 			/////////////
-			timeElapsed = getElapsedTime(startingTime);
 
 			Novice::SetBlendMode(BlendMode::kBlendModeNormal);
 			haikei1->Update(timeElapsed);
@@ -106,6 +106,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			/////////////
 			//描画処理　　↑↑↑↑↑↑↑↑
 			/////////////
+
+			//stageClear
+
+			if (maptip.stageClear) {
+
+			}
 
 			break; //gameStage1
 		case gameOver:

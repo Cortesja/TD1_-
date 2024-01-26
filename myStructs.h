@@ -87,7 +87,6 @@ typedef struct Maptip final {
 	int min_;
 	int randx_;
 	int randy_;
-	bool isShake_;
 
 }Maptip;
 

@@ -171,6 +171,12 @@ void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
 			isAlive_ = false;
 		}
 	}
+	//---------------------------------------
+
+	//-------------- tobira ----------------
+	if (maptipmap[p_.leftTop.y][p_.leftTop.x] == tobira || maptipmap[p_.leftBottom.y][p_.leftBottom.x] == tobira) {
+		maptip.stageClear = true;
+	}
 }
 
 void Player::ToScreen() {
