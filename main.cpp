@@ -72,7 +72,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			timeElapsed = getElapsedTime(startingTime);
 
 			Novice::SetBlendMode(BlendMode::kBlendModeNormal);
-			haikei1->Update(timeElapsed, player->isHit_);
+			haikei1->Update(timeElapsed);
 			haikei1->Draw();
 
 			blockUpdate(timeElapsed, night, timer, block);
@@ -85,7 +85,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 
-			DrawMaptip(maptip.map1, maptip.imgBlock, block, maptip);
+			if (player->isHit_) {
+				MaptipScreenShake(maptip.map1, maptip.imgBlock, block, maptip, player->isHit_);
+			}
+			else {
+				DrawMaptip(maptip.map1, maptip.imgBlock, block, maptip);
+			}
 
 			player->ToScreen();
 			

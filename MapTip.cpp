@@ -21,8 +21,8 @@ void initializeMaptip(Maptip &maptip) {
 	maptip.timer = 0;
 
 	maptip.effTimer_ = 90;
-	maptip.max_ = 51;
-	maptip.min_ = 25;
+	maptip.max_ = 41;
+	maptip.min_ = 20;
 	maptip.randx_= 0;
 	maptip.randy_= 0;
 	maptip.isShake_ = false;
@@ -129,22 +129,6 @@ void initializeMap(int map1[bMapY][bMapX], int map2[bMapY][bMapX], int map3[bMap
 int ChkVisible(float radius, Vector2 playerPos, Vector2 objectPos) {
 	float distance = sqrtf(powf(objectPos.x - playerPos.x, 2) + powf(objectPos.y - playerPos.y, 2));
 
-	//if (radius * 0.75 <= distance) {
-	//	return 0x00000000;
-	//}
-	//else if (radius * 0.6 <= distance) {
-	//	return 0x33333333;
-	//}
-	//else if (radius * 0.5 <= distance) {
-	//	return 0x44444444;
-	//} 
-	//else if (radius * 0.25 <= distance) {
-	//	return 0xBBBBBBBB;
-	//}
-	//else {
-	//	return 0xFFFFFFFF;
-	//}
-
 	if (radius * 0.55 <= distance) {
 		return 0x000000FF;
 	}
@@ -163,9 +147,7 @@ void blockUpdate(float timeElapsed, bool &night, int &timer, MaptipBlock block[b
 
 	if (!night) {
 		timer += 1;
-	}
 
-	if (!night) {
 		if (timer % 10 == 0) {
 			for (int y = 0; y < bMapY; y++) {
 				for (int x = 0; x < bMapX; x++) {
@@ -195,61 +177,60 @@ void blockUpdate(float timeElapsed, bool &night, int &timer, MaptipBlock block[b
 	}
 }
 
-//void MaptipScreenShake(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock block[bMapY][bMapX], Maptip maptip, bool isHit) {
-//
-//	if (isHit) {
-//		effTimer_--;
-//
-//		if (effTimer_ <= 60 && effTimer_ > 30) {
-//			min_ = 15;
-//			max_ = 31;
-//		}
-//		if (effTimer_ <= 30 && effTimer_ > 0) {
-//			max_ = 11;
-//			min_ = 5;
-//		}
-//
-//		randx_ = rand() % max_ - min_;
-//		randy_ = rand() % max_ - min_;
-//
-//		if (effTimer_ <= 0) {
-//			isShake_ = false;
-//			max_ = 51;
-//			min_ = 25;
-//			effTimer_ = 90;
-//		}
-//
-//		for (int y = 0; y < bMapY; y++) {
-//			for (int x = 0; x < bMapX; x++) {
-//				//////////////////////////
-//
-//				if (map[y][x] == koteiBlock) {
-//					Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, imgBlock[0], 1.0f, 1.0f, 0.0f, block[y][x].color);
-//				}
-//				if (map[y][x] == kagi) {
-//					if (!maptip.kagiGet[0]) {
-//						Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, maptip.imgKagi[0], 1.0f, 1.0f, 0.0f, block[y][x].color);
-//					}
-//					else {
-//						Novice::DrawSprite(10, 10, maptip.imgKagi[1], 1.0f, 1.0f, 0.0f, WHITE);
-//					}
-//				}
-//				if (map[y][x] == tobira) {
-//					Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, maptip.imgTobira[0], 1.0f, 1.0f, 0.0f, block[y][x].color);
-//				}
-//				if (map[y][x] == togeUp) {
-//					Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, maptip.imgToge[togeUp], 1.0f, 1.0f, 0.0f, block[y][x].color);
-//				}
-//				if (map[y][x] == togeDown) {
-//					Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, maptip.imgToge[togeDown], 1.0f, 1.0f, 0.0f, block[y][x].color);
-//				}
-//
-//
-//				/////////////////////////
-//			}
-//		}
-//	}
-//}
+void MaptipScreenShake(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock block[bMapY][bMapX], Maptip &maptip, bool &isShake) {
+
+		maptip.effTimer_--;
+
+		if (maptip.effTimer_ <= 60 && maptip.effTimer_ > 30) {
+			maptip.min_ = 15;
+			maptip.max_ = 31;
+		}
+		if (maptip.effTimer_ <= 30 && maptip.effTimer_ > 0) {
+			maptip.max_ = 11;
+			maptip.min_ = 5;
+		}
+
+		maptip.randx_ = rand() % maptip.max_ - maptip.min_;
+		maptip.randy_ = rand() % maptip.max_ - maptip.min_;
+
+		if (maptip.effTimer_ <= 0) {
+			isShake = false;
+			maptip.max_ = 41;
+			maptip.min_ = 20;
+			maptip.effTimer_ = 90;
+		}
+
+		for (int y = 0; y < bMapY; y++) {
+			for (int x = 0; x < bMapX; x++) {
+				//////////////////////////
+
+				if (map[y][x] == koteiBlock) {
+					Novice::DrawSprite((int)block[y][x].pos.x + maptip.randx_, (int)block[y][x].pos.y + maptip.randy_, imgBlock[0], 1.0f, 1.0f, 0.0f, block[y][x].color);
+				}
+				if (map[y][x] == kagi) {
+					if (!maptip.kagiGet[0]) {
+						Novice::DrawSprite((int)block[y][x].pos.x + maptip.randx_, (int)block[y][x].pos.y + maptip.randy_, maptip.imgKagi[0], 1.0f, 1.0f, 0.0f, block[y][x].color);
+					}
+					else {
+						Novice::DrawSprite(10, 10, maptip.imgKagi[1], 1.0f, 1.0f, 0.0f, WHITE);
+					}
+				}
+				if (map[y][x] == tobira) {
+					Novice::DrawSprite((int)block[y][x].pos.x + maptip.randx_, (int)block[y][x].pos.y + maptip.randy_, maptip.imgTobira[0], 1.0f, 1.0f, 0.0f, block[y][x].color);
+				}
+				if (map[y][x] == togeUp) {
+					Novice::DrawSprite((int)block[y][x].pos.x + maptip.randx_, (int)block[y][x].pos.y + maptip.randy_, maptip.imgToge[togeUp], 1.0f, 1.0f, 0.0f, block[y][x].color);
+				}
+				if (map[y][x] == togeDown) {
+					Novice::DrawSprite((int)block[y][x].pos.x + maptip.randx_, (int)block[y][x].pos.y + maptip.randy_, maptip.imgToge[togeDown], 1.0f, 1.0f, 0.0f, block[y][x].color);
+				}
+
+
+				/////////////////////////
+			}
+		}
+}
+	
 
 void DrawMaptip(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock block[bMapY][bMapX], Maptip maptip) {
 	for (int y = 0; y < bMapY; y++) {

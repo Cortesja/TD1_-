@@ -19,7 +19,7 @@ public:
 
 	Vector2 GetPos();
 
-	void Update(float timeElapsed, bool &isHit);
+	void Update(float timeElapsed);
 	void Draw();
 };
 
