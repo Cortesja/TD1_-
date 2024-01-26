@@ -4,7 +4,7 @@
 
 class Player
 {
-public:
+private:
 	Vector2 pos_;
 	Vector2 newPos_;
 	Vector2 vel_;
@@ -14,14 +14,22 @@ public:
 
 	int radius_;
 	Size size_;
+	int jumpCount_;
 	int speed_;
-	Camera* main_;
+	int img_[4];
+	int imgDeath[4];
+	int color_;
 
 public:
+	bool isHit_;
+	bool isAlive_;
+
 	Player();
 	~Player();
 	void ToScreen();
+
+	Vector2 GetPosition();
 	void MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]);
-	void Update();
+	void Update(int maptipmap[bMapY][bMapX], Maptip &maptip);
 	void Draw();
 };

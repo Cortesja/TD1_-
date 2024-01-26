@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "Backround.h"
 #include "MapTip.h"
+#include "Light.h"
+#include "Color.h"
 
 const char kWindowTitle[] = "GC1C_07_コーテスジャレッドアレン";
 
@@ -20,11 +22,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int scene = gameStage1;
 
 	Player* player = new Player();
+	Light* playerLight = new Light();
 	Backround* haikei1 = new Backround();
 
 	Maptip maptip = { 0 };
+	MaptipBlock block[bMapY][bMapX];
+
 	initializeMaptip(maptip);
-	initializeMap(maptip.map1, maptip.map2, maptip.map3);
+	initializeMap(maptip.map1, maptip.map2, maptip.map3, block);
+
+	clock_t startingTime = clock();
+	float timeElapsed = 0;
+
+	bool night = false;
+	//bool isShake = false;
+	int timer = 0;
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -46,15 +58,54 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break; //gameColorSelect
 		case gameStage1:
 
-			player->MovePlayer(keys, preKeys, maptip.map1);
-			player->Update();
+			if (keys[DIK_1] && !preKeys[DIK_1]) {
+				night = true;
+				haikei1->night_ = true;
+			}
 
+			player->MovePlayer(keys, preKeys, maptip.map1);
+			player->Update(maptip.map1, maptip);
+
+			/////////////
+			//描画処理　　↓↓↓↓↓↓↓↓
+			/////////////
+			timeElapsed = getElapsedTime(startingTime);
+
+			Novice::SetBlendMode(BlendMode::kBlendModeNormal);
+			haikei1->Update(timeElapsed);
 			haikei1->Draw();
-			DrawMaptip(maptip.map1, maptip.imgBlock);
+
+			blockUpdate(timeElapsed, night, timer, block);
+
+			if (haikei1->night_) {
+				for (int y = 0; y < bMapY; y++) {
+					for (int x = 0; x < bMapX; x++) {
+						block[y][x].color = ChkVisible(playerLight->size_.w, player->GetPosition(), block[y][x].pos);
+					}
+				}
+			}
+
+			if (player->isHit_) {
+				MaptipScreenShake(maptip.map1, maptip.imgBlock, block, maptip, player->isHit_);
+			}
+			else {
+				DrawMaptip(maptip.map1, maptip.imgBlock, block, maptip);
+			}
 
 			player->ToScreen();
+			
+			Novice::SetBlendMode(BlendMode::kBlendModeAdd);
+			if (haikei1->night_) {
+				playerLight->Draw(player->GetPosition());
+			}
+
+			Novice::SetBlendMode(BlendMode::kBlendModeNone);
 			player->Draw();
-			Novice::ScreenPrintf(10, 10, "pos_.x: %f", player->pos_.x);
+			//Novice::ScreenPrintf(42, 120, "time: %f", timeElapsed);
+
+			/////////////
+			//描画処理　　↑↑↑↑↑↑↑↑
+			/////////////
 
 			break; //gameStage1
 		case gameOver:

@@ -1,6 +1,7 @@
 #pragma once
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <time.h>
 
 const int kWindowHeight = 704;
 const int kWindowWidth = 1280;
@@ -23,8 +24,12 @@ enum scene {
 };
 
 enum MapLegend {
-	empty,
-	koteiBlock
+	empty, //0 
+	koteiBlock,//1
+	kagi,//2
+	tobira,//3
+	togeUp,//4
+	togeDown//5
 };
 
 typedef struct Vector2 {
@@ -70,9 +75,33 @@ typedef struct Maptip final {
 	int map3[22][40];
 	int map4[22][40];
 	int imgBlock[10];
+	int imgKagi[4];
+	int imgTobira[8];
+	int imgToge[6];
 	int timer;
-	float blockSize;
+	bool kagiGet[2];
+	bool stageClear;
+
+	int effTimer_;
+	int max_;
+	int min_;
+	int randx_;
+	int randy_;
+	bool isShake_;
+
 }Maptip;
+
+typedef struct MaptipBlock final {
+	Vector2 pos;
+	int color;
+	int R_;
+	int G_;
+	int B_;
+	int A_;
+}MaptipBlock;
 
 Matrix3x3 MakeTranslateRotateMatrix(Vector2 translate, float theta);
 Matrix3x3 MakeRotateMatrix(float theta);
+
+float convertToSec(clock_t time);
+float getElapsedTime(clock_t time);

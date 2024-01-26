@@ -65,6 +65,12 @@
     <ClCompile Include="MapTip.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -147,5 +153,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Backround.h" />
     <ClInclude Include="MapTip.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Color.h" />
   </ItemGroup>
 </Project>

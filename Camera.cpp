@@ -1,9 +1,23 @@
 #include "Camera.h"
+#include "Novice.h"
+
+#include <stdlib.h>
+#include <time.h>
 
 Camera::Camera() {
 	pos_ = { 0 };
 	scroll_ = { 0 };
 	v = { 0 };
+
+	effTimer_ = 90;
+	isShake_ = false;
+
+	randx_ = 0, randy_ = 0;
+	imgHandler_ = 0;
+	colorHandler_ = 0;
+
+	max_ = 51;
+	min_ = 25;
 }
 
 Camera::~Camera() {
@@ -55,3 +69,27 @@ Position Camera::ToScreenV4(Position pos) {
 	return result;
 }
 
+void Camera::screenShake() {
+	effTimer_--;
+
+	if (effTimer_ <= 60 && effTimer_ > 30) {
+		min_ = 15;
+		max_ = 31;
+	}
+	if (effTimer_ <= 30 && effTimer_ > 0) {
+		max_ = 11;
+		min_ = 5;
+	}
+
+	randx_ = rand() % max_ - min_;
+	randy_ = rand() % max_ - min_;
+
+	if (effTimer_ <= 0) {
+		isShake_ = false;
+		max_ = 51;
+		min_ = 25;
+		effTimer_ = 90;
+	}
+
+	Novice::DrawSprite((int)pos_.x + randx_, (int)pos_.y + randy_, imgHandler_, 1.0f, 1.0f, 0.0f, colorHandler_);
+}
