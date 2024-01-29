@@ -19,12 +19,15 @@ void initializeMaptip(Maptip &maptip) {
 	maptip.imgToge[togeDown] = Novice::LoadTexture("./resources/objects/togeDown.png");
 
 	maptip.timer = 0;
+	maptip.imgHandler = 0;
 
 	maptip.effTimer_ = 90;
 	maptip.max_ = 41;
 	maptip.min_ = 20;
 	maptip.randx_= 0;
 	maptip.randy_= 0;
+
+	maptip.size = { 64.0f, 64.0f };
 	maptip.stageClear = false;
 }
 
@@ -232,7 +235,7 @@ void MaptipScreenShake(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock bloc
 }
 	
 
-void DrawMaptip(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock block[bMapY][bMapX], Maptip maptip) {
+void DrawMaptip(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock block[bMapY][bMapX], Maptip &maptip) {
 	for (int y = 0; y < bMapY; y++) {
 		for (int x = 0; x < bMapX; x++) {
 			//////////////////////////
@@ -249,7 +252,19 @@ void DrawMaptip(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock block[bMapY
 				}
 			}
 			if (map[y][x] == tobira) {
-				Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, maptip.imgTobira[0], 1.0f, 1.0f, 0.0f, block[y][x].color);
+				if (maptip.stageClear) {
+					maptip.timer++;
+					if (maptip.timer % 15 == 0) {
+						maptip.imgHandler += 1;
+					}
+					Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, maptip.imgTobira[maptip.imgHandler], 1.0f, 1.0f, 0.0f, block[y][x].color);
+				}
+				else {
+					Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, maptip.imgTobira[0], 1.0f, 1.0f, 0.0f, block[y][x].color);
+					maptip.doorPos.x = block[y][x].pos.x;
+					maptip.doorPos.y = block[y][x].pos.y;
+
+				}
 			}
 			if (map[y][x] == togeUp) {
 				Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, maptip.imgToge[togeUp], 1.0f, 1.0f, 0.0f, block[y][x].color);

@@ -174,7 +174,10 @@ void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
 	//---------------------------------------
 
 	//-------------- tobira ----------------
-	if (maptipmap[p_.leftTop.y][p_.leftTop.x] == tobira || maptipmap[p_.leftBottom.y][p_.leftBottom.x] == tobira) {
+	bool chkCollision;
+	chkCollision = chkObjHit(pos_, size_, maptip.doorPos, maptip.size);
+	if (chkCollision && maptip.kagiGet[0]) {
+
 		maptip.stageClear = true;
 	}
 }
