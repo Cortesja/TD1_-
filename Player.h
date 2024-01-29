@@ -29,6 +29,7 @@ public:
 	void ToScreen();
 
 	Vector2 GetPosition();
+	Size GetSize();
 	void MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]);
 	void Update(int maptipmap[bMapY][bMapX], Maptip &maptip);
 	void Draw();

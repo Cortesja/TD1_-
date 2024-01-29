@@ -29,7 +29,8 @@ enum MapLegend {
 	kagi,//2
 	tobira,//3
 	togeUp,//4
-	togeDown//5
+	togeDown,//5
+	bounce //6
 };
 
 typedef struct Vector2 {
@@ -108,3 +109,5 @@ Matrix3x3 MakeRotateMatrix(float theta);
 float convertToSec(clock_t time);
 float getElapsedTime(clock_t time);
 bool chkObjHit(Vector2 playerPos, Size playerSize, Vector2 objPos, Size objSize);
+
+int ChkVisible(float radius, Vector2 playerPos, Vector2 objectPos);

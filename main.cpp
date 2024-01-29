@@ -16,14 +16,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::Initialize(kWindowTitle, kWindowWidth, kWindowHeight);
 
 	// キー入力結果を受け取る箱
-	char keys[256] = {0};
-	char preKeys[256] = {0};
+	char keys[256] = { 0 };
+	char preKeys[256] = { 0 };
 
 	int scene = gameStage2;
 
 	Player* player = new Player();
 	Light* playerLight = new Light();
 	Backround* haikei1 = new Backround();
+
+	Object* spike = new Object();
 
 	Maptip maptip = { 0 };
 	MaptipBlock block[bMapY][bMapX];
@@ -38,6 +40,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//bool isShake = false;
 	int nightTimer = 0;
 	int clearTimer = 0;
+
+	float theta = 0.0f;
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -151,6 +155,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 
+			////////////////////////////////////////
+
+			Matrix3x3 rotateMatrix = MakeRotateMatrix(theta);
+			theta += (float)(1.0f / 128.0f * (M_PI));
+
+			spike->Multiply(rotateMatrix);
+			spike->Update(timeElapsed, night, player->GetPosition(), player->isHit_);
+			if (night) {
+				spike->color->colorHandler_ = ChkVisible(playerLight->size_.w, player->GetPosition(), spike->position_);
+			}
+			spike->Draw();
+			///////////////////////////////////////
+
 			if (player->isHit_) {
 				MaptipScreenShake(maptip.map2, maptip.imgBlock, block, maptip, player->isHit_);
 			}
@@ -167,8 +184,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			Novice::SetBlendMode(BlendMode::kBlendModeNone);
 			player->Draw();
+			//Novice::DrawEllipse((int)player->GetPosition().x, (int)player->GetPosition().y, 5, 5, 0.0f, RED, kFillModeSolid);
 			//Novice::ScreenPrintf(42, 120, "time: %f", timeElapsed);
-
+			
 			/////////////
 			//描画処理　　↑↑↑↑↑↑↑↑
 			/////////////

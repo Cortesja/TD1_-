@@ -4,7 +4,7 @@
 //日本語
 
 Player::Player() {
-	this->pos_ = { 1000.0f, 500.0f };
+	this->pos_ = { 1000.0f, kWindowHeight - 64.0f };
 	newPos_ = { 0 };
 	this->radius_ = 25;
 	size_ = { 32.0f, 32.0f };
@@ -31,6 +31,10 @@ Player::~Player() {
 
 Vector2 Player::GetPosition() {
 	return { pos_.x + (size_.w / 2), pos_.y + (size_.h / 2) };
+}
+
+Size Player::GetSize() {
+	return size_;
 }
 
 void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]) {
@@ -118,15 +122,15 @@ void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
 
 	//縦横制限
 	if (pos_.y >= kWindowHeight - size_.h) {
-		pos_.y = 0;
+		pos_.y = 0 - size_.h / 2;
 	}
 	if (pos_.y <= 0 - size_.h) {
 		pos_.y = kWindowHeight - size_.h;
 	}
 
 	//横制限
-	if (pos_.x <= 0 - size_.w) {
-		pos_.x = kWindowWidth - size_.w / 2;
+	if (pos_.x <= 0 - size_.w * 0.8f) {
+		pos_.x = kWindowWidth - size_.w * 0.8f;
 	}
 	if (pos_.x >= kWindowWidth) {
 		pos_.x = 0;
@@ -135,15 +139,28 @@ void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
 	//マップチップの当たり判定
 
 	//-------------- koteiBlock ---------------
-	if (maptipmap[p_.leftBottom.y][p_.leftBottom.x] == koteiBlock || maptipmap[p_.rightBottom.y][p_.rightBottom.x] == koteiBlock) {
+	if (maptipmap[p_.leftBottom.y][p_.leftBottom.x] == koteiBlock) {
 		vel_.y = 0;
 		jumpCount_ = 0;
 		pos_.y = floorf((float)p_.leftBottom.y * BLOCK_SIZE - size_.h);
 	}
-	if (maptipmap[p_.leftTop.y][p_.leftTop.x] == koteiBlock || maptipmap[p_.rightTop.y][p_.rightTop.x] == koteiBlock) {
+
+	if (maptipmap[p_.leftTop.y][p_.leftTop.x] == koteiBlock) {
 		vel_.y = 0;
 		pos_.y = floorf((float)p_.leftTop.y * BLOCK_SIZE + size_.h);
 	}
+
+	if (maptipmap[p_.rightBottom.y][p_.rightBottom.x] == koteiBlock) {
+		vel_.y = 0;
+		jumpCount_ = 0;
+		pos_.y = floorf((float)p_.rightBottom.y * BLOCK_SIZE - size_.h);
+	}
+
+	if (maptipmap[p_.rightTop.y][p_.rightTop.x] == koteiBlock) {
+		vel_.y = 0;
+		pos_.y = floorf((float)p_.rightTop.y * BLOCK_SIZE + size_.h);
+	}
+
 	//-----------------------------------------
 
 	//--------------- kagi -------------------
@@ -180,6 +197,16 @@ void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
 
 		maptip.stageClear = true;
 	}
+	//--------------------------------------
+
+	//--------------- bouce ----------------
+	if (maptipmap[p_.leftBottom.y][p_.leftBottom.x] == bounce || maptipmap[p_.rightBottom.y][p_.rightBottom.x] == bounce) {
+		vel_.y = -20.0f;
+	}
+	if (maptipmap[p_.leftTop.y][p_.leftTop.x] == bounce || maptipmap[p_.rightTop.y][p_.rightTop.x] == bounce) {
+		vel_.y = -20.0f;
+	}
+	//---------------------------------------
 }
 
 void Player::ToScreen() {
@@ -194,10 +221,10 @@ void Player::Draw() {
 		Novice::DrawSprite((int)pos_.x, (int)pos_.y, imgDeath[0], 1.0f, 1.0f, 0.0f, color_);
 	}
 
-	//Novice::ScreenPrintf(42, 42, "p_.leftTop[%d][%d] ", p_.leftTop.y, p_.leftTop.x);
-	//Novice::ScreenPrintf(42, 62, "p_.leftBottom[%d][%d] ", p_.leftBottom.y, p_.leftBottom.x);
-	//Novice::ScreenPrintf(242, 42, "p_.rightTop[%d][%d] ", p_.rightTop.y, p_.rightTop.x);
-	//Novice::ScreenPrintf(242, 62, "p_.rightBottom[%d][%d] ", p_.rightBottom.y, p_.rightBottom.x);
+	Novice::ScreenPrintf(42, 42, "p_.leftTop[%d][%d] ", p_.leftTop.y, p_.leftTop.x);
+	Novice::ScreenPrintf(42, 62, "p_.leftBottom[%d][%d] ", p_.leftBottom.y, p_.leftBottom.x);
+	Novice::ScreenPrintf(242, 42, "p_.rightTop[%d][%d] ", p_.rightTop.y, p_.rightTop.x);
+	Novice::ScreenPrintf(242, 62, "p_.rightBottom[%d][%d] ", p_.rightBottom.y, p_.rightBottom.x);
 
 	//Novice::ScreenPrintf(42, 80, "pos_.x = %f", pos_.x);
 	//Novice::ScreenPrintf(42, 100, "pos_.y = %f", pos_.y);

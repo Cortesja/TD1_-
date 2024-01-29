@@ -2,10 +2,17 @@
 #include "Novice.h"
 
 void initializeMaptip(Maptip &maptip) {
+	//1
 	maptip.imgBlock[0] = Novice::LoadTexture("./resources/block.png");
+
+	//6
+	maptip.imgBlock[1] = Novice::LoadTexture("./resources/objects/bounce.png");
+
+	//2
 	maptip.imgKagi[0] = Novice::LoadTexture("./resources/objects/kagi.png");
 	maptip.imgKagi[1] = Novice::LoadTexture("./resources/objects/kagiGet.png");
 
+	//3
 	maptip.imgTobira[0] = Novice::LoadTexture("./resources/objects/tobira1.png");
 	maptip.imgTobira[1] = Novice::LoadTexture("./resources/objects/tobira2.png");
 	maptip.imgTobira[2] = Novice::LoadTexture("./resources/objects/tobira3.png");
@@ -15,13 +22,15 @@ void initializeMaptip(Maptip &maptip) {
 	maptip.imgTobira[6] = Novice::LoadTexture("./resources/objects/tobira7.png");
 	maptip.imgTobira[7] = Novice::LoadTexture("./resources/objects/tobira8.png");
 
+	//4
 	maptip.imgToge[togeUp] = Novice::LoadTexture("./resources/objects/togeUp.png");
+	//5
 	maptip.imgToge[togeDown] = Novice::LoadTexture("./resources/objects/togeDown.png");
 
 	maptip.timer = 0;
 	maptip.imgHandler = 0;
 
-	maptip.effTimer_ = 90;
+	maptip.effTimer_ = 30;
 	maptip.max_ = 41;
 	maptip.min_ = 20;
 	maptip.randx_= 0;
@@ -59,28 +68,28 @@ void initializeMap(int map1[bMapY][bMapX], int map2[bMapY][bMapX], int map3[bMap
 	};
 
 	int Map2[bMapY][bMapX] = {
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+		{1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,6,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1},
+		{1,0,0,0,0,1,1,1,1,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,1},
+		{1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,1,1,1,5,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1},
+		{0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,5,5,0,0,1,0,0,0,0,0},
+		{0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
+		{1,0,0,0,0,0,1,1,1,0,0,0,0,1,1,5,5,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,6,4,4,4,1},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1,1,1},
+		{1,2,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,1,1,6,6,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,1},
+		{1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,5,5,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1},
+		{0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0},
+		{0,0,0,0,0,1,4,4,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,5,5,5,0,0,0,0,0,0,0},
+		{1,0,0,0,1,1,1,1,1,1,0,0,1,1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1},
+		{1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
+		{1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,3,0,0,1,0,0,0,0,1},
+		{1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1},
+		{1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,0,0,1,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,6,1}
 	};
 
 	int Map3[bMapY][bMapX] = {
@@ -129,20 +138,6 @@ void initializeMap(int map1[bMapY][bMapX], int map2[bMapY][bMapX], int map3[bMap
 	}
 }
 
-int ChkVisible(float radius, Vector2 playerPos, Vector2 objectPos) {
-	float distance = sqrtf(powf(objectPos.x - playerPos.x, 2) + powf(objectPos.y - playerPos.y, 2));
-
-	if (radius * 0.55 <= distance) {
-		return 0x000000FF;
-	}
-	else if (radius * 0.5 <= distance) {
-		return 0x444444FF;
-	}
-	else {
-		return 0x888888FF;
-	}
-}
-
 void blockUpdate(float timeElapsed, bool &night, int &timer, MaptipBlock block[bMapY][bMapX]) {
 	if (timeElapsed >= 40.0f) {
 		night = true;
@@ -184,11 +179,11 @@ void MaptipScreenShake(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock bloc
 
 		maptip.effTimer_--;
 
-		if (maptip.effTimer_ <= 60 && maptip.effTimer_ > 30) {
+		if (maptip.effTimer_ <= 20 && maptip.effTimer_ > 10) {
 			maptip.min_ = 15;
 			maptip.max_ = 31;
 		}
-		if (maptip.effTimer_ <= 30 && maptip.effTimer_ > 0) {
+		if (maptip.effTimer_ <= 10 && maptip.effTimer_ > 0) {
 			maptip.max_ = 11;
 			maptip.min_ = 5;
 		}
@@ -200,7 +195,7 @@ void MaptipScreenShake(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock bloc
 			isShake = false;
 			maptip.max_ = 41;
 			maptip.min_ = 20;
-			maptip.effTimer_ = 90;
+			maptip.effTimer_ = 30;
 		}
 
 		for (int y = 0; y < bMapY; y++) {
@@ -226,6 +221,9 @@ void MaptipScreenShake(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock bloc
 				}
 				if (map[y][x] == togeDown) {
 					Novice::DrawSprite((int)block[y][x].pos.x + maptip.randx_, (int)block[y][x].pos.y + maptip.randy_, maptip.imgToge[togeDown], 1.0f, 1.0f, 0.0f, block[y][x].color);
+				}
+				if (map[y][x] == bounce) {
+					Novice::DrawSprite((int)block[y][x].pos.x + maptip.randx_, (int)block[y][x].pos.y + maptip.randy_, imgBlock[1], 1.0f, 1.0f, 0.0f, block[y][x].color);
 				}
 
 
@@ -271,6 +269,9 @@ void DrawMaptip(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock block[bMapY
 			}
 			if (map[y][x] == togeDown) {
 				Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, maptip.imgToge[togeDown], 1.0f, 1.0f, 0.0f, block[y][x].color);
+			}
+			if (map[y][x] == bounce) {
+				Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, imgBlock[1], 1.0f, 1.0f, 0.0f, block[y][x].color);
 			}
 
 
