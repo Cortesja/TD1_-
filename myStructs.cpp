@@ -35,3 +35,17 @@ bool chkObjHit(Vector2 playerPos, Size playerSize, Vector2 objPos, Size objSize)
 	}
 	return false;
 }
+
+int ChkVisible(float radius, Vector2 playerPos, Vector2 objectPos) {
+	float distance = sqrtf(powf(objectPos.x - playerPos.x, 2) + powf(objectPos.y - playerPos.y, 2));
+
+	if (radius * 0.55 <= distance) {
+		return 0x000000FF;
+	}
+	else if (radius * 0.5 <= distance) {
+		return 0x444444FF;
+	}
+	else {
+		return 0x888888FF;
+	}
+}
