@@ -171,6 +171,15 @@ void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
 			isAlive_ = false;
 		}
 	}
+	//---------------------------------------
+
+	//-------------- tobira ----------------
+	bool chkCollision;
+	chkCollision = chkObjHit(pos_, size_, maptip.doorPos, maptip.size);
+	if (chkCollision && maptip.kagiGet[0]) {
+
+		maptip.stageClear = true;
+	}
 }
 
 void Player::ToScreen() {

@@ -35,12 +35,11 @@ Vector2 Backround::GetPos() {
 	return pos_[0];
 }
 
-void Backround::Update(float timeElapsed, bool &isShake) {
+void Backround::Update(float timeElapsed) {
 
-	if (isShake) {
+	/*if (isShake) {
 		camera->isShake_ = isShake;
-		isShake = false;
-	}
+	}*/
 
 	if (timeElapsed >= 40.0f) {
 		night_ = true;

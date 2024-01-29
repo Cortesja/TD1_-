@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	int scene = gameStage1;
+	int scene = gameStage2;
 
 	Player* player = new Player();
 	Light* playerLight = new Light();
@@ -36,7 +36,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	bool night = false;
 	//bool isShake = false;
-	int timer = 0;
+	int nightTimer = 0;
+	int clearTimer = 0;
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -56,7 +57,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break; //gameTitle
 		case gameColorSelect:
 			break; //gameColorSelect
+#pragma region
 		case gameStage1:
+			timeElapsed = getElapsedTime(startingTime);
 
 			if (keys[DIK_1] && !preKeys[DIK_1]) {
 				night = true;
@@ -69,13 +72,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			/////////////
 			//描画処理　　↓↓↓↓↓↓↓↓
 			/////////////
-			timeElapsed = getElapsedTime(startingTime);
 
 			Novice::SetBlendMode(BlendMode::kBlendModeNormal);
-			haikei1->Update(timeElapsed, player->isHit_);
+			haikei1->Update(timeElapsed);
 			haikei1->Draw();
 
-			blockUpdate(timeElapsed, night, timer, block);
+			blockUpdate(timeElapsed, night, nightTimer, block);
 
 			if (haikei1->night_) {
 				for (int y = 0; y < bMapY; y++) {
@@ -85,7 +87,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 
-			DrawMaptip(maptip.map1, maptip.imgBlock, block, maptip);
+			if (player->isHit_) {
+				MaptipScreenShake(maptip.map1, maptip.imgBlock, block, maptip, player->isHit_);
+			}
+			else {
+				DrawMaptip(maptip.map1, maptip.imgBlock, block, maptip);
+			}
 
 			player->ToScreen();
 			
@@ -102,7 +109,81 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//描画処理　　↑↑↑↑↑↑↑↑
 			/////////////
 
+			//stageClear
+
+			if (maptip.stageClear) {
+				clearTimer++;
+
+
+				if(clearTimer >= 120)
+				scene += 1;
+			}
+
 			break; //gameStage1
+#pragma endregion gameStage1
+#pragma region
+		case gameStage2:
+			timeElapsed = getElapsedTime(startingTime);
+
+			if (keys[DIK_1] && !preKeys[DIK_1]) {
+				night = true;
+				haikei1->night_ = true;
+			}
+
+			player->MovePlayer(keys, preKeys, maptip.map2);
+			player->Update(maptip.map2, maptip);
+
+			/////////////
+			//描画処理　　↓↓↓↓↓↓↓↓
+			/////////////
+
+			Novice::SetBlendMode(BlendMode::kBlendModeNormal);
+			haikei1->Update(timeElapsed);
+			haikei1->Draw();
+
+			blockUpdate(timeElapsed, night, nightTimer, block);
+
+			if (haikei1->night_) {
+				for (int y = 0; y < bMapY; y++) {
+					for (int x = 0; x < bMapX; x++) {
+						block[y][x].color = ChkVisible(playerLight->size_.w, player->GetPosition(), block[y][x].pos);
+					}
+				}
+			}
+
+			if (player->isHit_) {
+				MaptipScreenShake(maptip.map2, maptip.imgBlock, block, maptip, player->isHit_);
+			}
+			else {
+				DrawMaptip(maptip.map2, maptip.imgBlock, block, maptip);
+			}
+
+			player->ToScreen();
+
+			Novice::SetBlendMode(BlendMode::kBlendModeAdd);
+			if (haikei1->night_) {
+				playerLight->Draw(player->GetPosition());
+			}
+
+			Novice::SetBlendMode(BlendMode::kBlendModeNone);
+			player->Draw();
+			//Novice::ScreenPrintf(42, 120, "time: %f", timeElapsed);
+
+			/////////////
+			//描画処理　　↑↑↑↑↑↑↑↑
+			/////////////
+
+			//stageClear
+
+			if (maptip.stageClear) {
+				clearTimer++;
+
+
+				if (clearTimer >= 120)
+					scene += 1;
+			}
+			break;//gameStage2
+#pragma endregion gameStage2
 		case gameOver:
 			break; //gameOver
 		} //switch
