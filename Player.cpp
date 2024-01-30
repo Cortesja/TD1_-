@@ -29,14 +29,6 @@ Player::~Player() {
 
 }
 
-Vector2 Player::GetPosition() {
-	return { pos_.x + (size_.w / 2), pos_.y + (size_.h / 2) };
-}
-
-Size Player::GetSize() {
-	return size_;
-}
-
 void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]) {
 	Vector2 tempV = { 4.0f, 0.0f };
 

@@ -19,11 +19,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	int scene = gameStage2;
+	int scene = gameTitle;
 
 	Player* player = new Player();
 	Light* playerLight = new Light();
 	Backround* haikei1 = new Backround();
+	Backround* titleScreen = new Backround();
 
 	Object* spike = new Object();
 
@@ -58,6 +59,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		switch (scene) {
 		case gameTitle:
+			Novice::SetBlendMode(BlendMode::kBlendModeNormal);
+
+			titleScreen->DrawTitleScreen();
+
+			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE]) {
+				scene = gameStage1;
+				timeElapsed = 0;
+				startingTime = clock();
+			}
+
 			break; //gameTitle
 		case gameColorSelect:
 			break; //gameColorSelect
@@ -107,7 +118,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			Novice::SetBlendMode(BlendMode::kBlendModeNone);
 			player->Draw();
-			//Novice::ScreenPrintf(42, 120, "time: %f", timeElapsed);
+			Novice::ScreenPrintf(42, 120, "time: %f", timeElapsed);
 
 			/////////////
 			//描画処理　　↑↑↑↑↑↑↑↑
@@ -118,9 +129,35 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (maptip.stageClear) {
 				clearTimer++;
 
+				if (clearTimer == 120) {
+					haikei1->easing->isMove_ = true;
+				}
 
-				if(clearTimer >= 120)
-				scene += 1;
+				if (clearTimer > 120) {
+					haikei1->easing->StartEasing(haikei1->easing->isMove_);
+
+					if (keys[DIK_RETURN] && !preKeys[DIK_RETURN]) {
+						clearTimer = 0;
+						startingTime = clock();
+						timeElapsed = 0;
+						maptip.kagiGet[0] = false;
+						night = false;
+						haikei1->night_ = false;
+
+						haikei1->easing->startPos_ = { float(kWindowWidth / 4), float(-500.0f - (haikei1->size_.h / 2)) };
+						haikei1->easing->endPos_ = { float(kWindowWidth / 4), float(kWindowHeight / 2 - (haikei1->size_.h / 2)) };
+						haikei1->easing->startFrame_ = 0;
+						haikei1->easing->endFrame_ = 180;
+
+						player->SetPosition({ 1000.0f, kWindowHeight - 64.0f });
+
+						maptip.stageClear = false;
+						maptip.imgHandler = 0;
+						maptip.timer = 0;
+
+						scene += 1;
+					}
+				}
 			}
 
 			break; //gameStage1
@@ -141,7 +178,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//描画処理　　↓↓↓↓↓↓↓↓
 			/////////////
 
-			Novice::SetBlendMode(BlendMode::kBlendModeNormal);
+			//Novice::SetBlendMode(BlendMode::kBlendModeNormal);
 			haikei1->Update(timeElapsed);
 			haikei1->Draw();
 
@@ -196,10 +233,37 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (maptip.stageClear) {
 				clearTimer++;
 
+				if (clearTimer == 120) {
+					haikei1->easing->isMove_ = true;
+				}
 
-				if (clearTimer >= 120)
-					scene += 1;
+				if (clearTimer > 120) {
+					haikei1->easing->StartEasing(haikei1->easing->isMove_);
+
+					if (keys[DIK_RETURN] && !preKeys[DIK_RETURN]) {
+						clearTimer = 0;
+						startingTime = clock();
+						timeElapsed = 0;
+						maptip.kagiGet[0] = false;
+						night = false;
+						haikei1->night_ = false;
+
+						haikei1->easing->startPos_ = { float(kWindowWidth / 4), float(- 500.0f - (haikei1->size_.h / 2))};
+						haikei1->easing->endPos_ = { float(kWindowWidth / 4), float(kWindowHeight / 2 - (haikei1->size_.h / 2)) };
+						haikei1->easing->startFrame_ = 0;
+						haikei1->easing->endFrame_ = 180;
+
+						player->SetPosition({ 1000.0f, kWindowHeight - 64.0f });
+
+						maptip.stageClear = false;
+						maptip.imgHandler = 0;
+						maptip.timer = 0;
+
+						scene += 1;
+					}
+				}
 			}
+
 			break;//gameStage2
 #pragma endregion gameStage2
 		case gameOver:

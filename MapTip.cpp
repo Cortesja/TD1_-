@@ -139,21 +139,19 @@ void initializeMap(int map1[bMapY][bMapX], int map2[bMapY][bMapX], int map3[bMap
 }
 
 void blockUpdate(float timeElapsed, bool &night, int &timer, MaptipBlock block[bMapY][bMapX]) {
-	if (timeElapsed >= 40.0f) {
+	if (timeElapsed >= 20.0f) {
 		night = true;
 	}
 
 	if (!night) {
 		timer += 1;
 
-		if (timer % 10 == 0) {
+		if (timer % 5 == 0) {
 			for (int y = 0; y < bMapY; y++) {
 				for (int x = 0; x < bMapX; x++) {
-					if (timer % 10 == 0) {
-						block[y][x].R_ -= 1;
-						block[y][x].G_ -= 1;
-						block[y][x].B_ -= 1;
-					}
+					block[y][x].R_ -= 1;
+					block[y][x].G_ -= 1;
+					block[y][x].B_ -= 1;
 				}
 			}
 		}
@@ -255,6 +253,11 @@ void DrawMaptip(int map[bMapY][bMapX], int imgBlock[10], MaptipBlock block[bMapY
 					if (maptip.timer % 15 == 0) {
 						maptip.imgHandler += 1;
 					}
+
+					if (maptip.timer >= 120) {
+						maptip.imgHandler = 7;
+					}
+
 					Novice::DrawSprite((int)block[y][x].pos.x, (int)block[y][x].pos.y, maptip.imgTobira[maptip.imgHandler], 1.0f, 1.0f, 0.0f, block[y][x].color);
 				}
 				else {

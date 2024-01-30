@@ -28,8 +28,10 @@ public:
 	~Player();
 	void ToScreen();
 
-	Vector2 GetPosition();
-	Size GetSize();
+	Vector2 GetPosition() { return { pos_.x + (size_.w / 2), pos_.y + (size_.h / 2) }; }
+	Size GetSize() { return size_; };
+	void SetPosition(Vector2 pos) { pos_ = pos; };
+
 	void MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]);
 	void Update(int maptipmap[bMapY][bMapX], Maptip &maptip);
 	void Draw();

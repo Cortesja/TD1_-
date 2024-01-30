@@ -5,9 +5,15 @@ class Easing
 {
 public:
 	Vector2 startPos_;
-	int endFrame;
+	Vector2 endPos_;
+	Vector2 newPos_;
+	float startFrame_;
+	float endFrame_;
+	int img_;
 	bool isMove_ = false;
 public:
-	Vector2 easeInSine(float x);
+	float easeInSine(float x);
+	void StartEasing(bool &isMove);
+	void Draw();
 };
 

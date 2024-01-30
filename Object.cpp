@@ -3,7 +3,7 @@
 #include <assert.h>
 
 Object::Object() {
-	this->img = Novice::LoadTexture("./kukeiWHITE.png");
+	this->img = Novice::LoadTexture("./resources/objects/spikeBall.png");
 	this->size = { 200.0f, 25.0f };
 
 	this->pos_.leftTop = { -this->size.w / 2, -this->size.h / 2 };
@@ -131,13 +131,13 @@ void Object::Update(float timeElapsed, bool night, Vector2 playerPos, bool &play
 	Novice::DrawLine((int)line[2].x, (int)line[2].y, (int)lineEnd[2].x, (int)lineEnd[2].y, RED);
 	Novice::DrawLine((int)line[3].x, (int)line[3].y, (int)lineEnd[3].x, (int)lineEnd[3].y, RED);*/
 
-	if (timeElapsed >= 40.0f) {
+	if (timeElapsed >= 20.0f) {
 		night = true;
 	}
 
 	if (!night) {
 		timer_ += 1;
-		if (timer_ % 10 == 0) {
+		if (timer_ % 5 == 0) {
 			color->R_ -= 1;
 			color->G_ -= 1;
 			color->B_ -= 1;
@@ -186,10 +186,10 @@ void Object::Draw() {
 	Novice::DrawQuad(
 		(int)this->newPos_.leftTop.x,
 		(int)this->newPos_.leftTop.y,
-		(int)this->newPos_.leftBottom.x,
-		(int)this->newPos_.leftBottom.y,
 		(int)this->newPos_.rightTop.x,
 		(int)this->newPos_.rightTop.y,
+		(int)this->newPos_.leftBottom.x,
+		(int)this->newPos_.leftBottom.y,
 		(int)this->newPos_.rightBottom.x,
 		(int)this->newPos_.rightBottom.y,
 		0, 0, (int)size.w, (int)size.h, this->img, color->colorHandler_
