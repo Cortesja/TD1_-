@@ -18,6 +18,7 @@ Backround::Backround() {
 	img_[1] = Novice::LoadTexture("./resources/titleLayer1.png");
 	img_[2] = Novice::LoadTexture("./resources/titleLayer2.png");
 	img_[3] = Novice::LoadTexture("./resources/titleLayer3.png");
+	img_[4] = Novice::LoadTexture("./resources/gameClear.png");
 
 	timer_ = 0;
 	aniTimer_ = 0;
@@ -31,10 +32,10 @@ Backround::Backround() {
 	color->A_ = 255;
 
 	easing = new Easing;
-	size_ = { 640.0f, 352.0f };
+	easing->size_ = { 640.0f, 352.0f };
 
-	easing->startPos_ = { float(kWindowWidth / 4), -500.0f - (size_.h / 2) };
-	easing->endPos_ = { float(kWindowWidth / 4), float(kWindowHeight / 2 - (size_.h / 2)) };
+	easing->startPos_ = { float(kWindowWidth / 4), -500.0f - (easing->size_.h / 2) };
+	easing->endPos_ = { float(kWindowWidth / 4), float(kWindowHeight / 2 - (easing->size_.h / 2)) };
 
 	easing->startFrame_ = 0;
 	easing->endFrame_ = 180;
@@ -59,13 +60,13 @@ Vector2 Backround::GetPos() {
 	return pos_[0];
 }
 
-void Backround::Update(float timeElapsed) {
+void Backround::Update(float timeElapsed, bool reset) {
 
 	/*if (isShake) {
 		camera->isShake_ = isShake;
 	}*/
 
-	if (timeElapsed >= 20.0f) {
+	if (timeElapsed >= 1200.0f) {
 		night_ = true;
 	}
 
@@ -83,6 +84,13 @@ void Backround::Update(float timeElapsed) {
 		color->B_ = 0;
 	}
 
+
+	if (reset) {
+		color->R_ = 255;
+		color->G_ = 255;
+		color->B_ = 255;
+		color->A_ = 255;
+	}
 	color->ToCode();
 }
 

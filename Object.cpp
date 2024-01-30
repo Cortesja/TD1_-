@@ -71,7 +71,7 @@ void Object::ToScreen() {
 	this->newPos_.rightBottom.y = (this->newPos_.rightBottom.y * kWorldToScreenScale.y) + kWorldToScreenTranslate.y;
 }
 
-void Object::Update(float timeElapsed, bool night, Vector2 playerPos, bool &playerHit) {
+void Object::Update(float timeElapsed, bool night, Vector2 playerPos, bool &playerHit, bool reset) {
 	float distance[16];
 	Vector2 line[4];
 	Vector2 lineEnd[4];
@@ -127,12 +127,7 @@ void Object::Update(float timeElapsed, bool night, Vector2 playerPos, bool &play
  		playerHit = true;
 	}
 
-	/*Novice::DrawLine((int)line[0].x, (int)line[0].y, (int)lineEnd[0].x, (int)lineEnd[0].y, RED);
-	Novice::DrawLine((int)line[1].x, (int)line[1].y, (int)lineEnd[1].x, (int)lineEnd[1].y, RED);
-	Novice::DrawLine((int)line[2].x, (int)line[2].y, (int)lineEnd[2].x, (int)lineEnd[2].y, RED);
-	Novice::DrawLine((int)line[3].x, (int)line[3].y, (int)lineEnd[3].x, (int)lineEnd[3].y, RED);*/
-
-	if (timeElapsed >= 20.0f) {
+	if (timeElapsed >= 1200.0f) {
 		night = true;
 	}
 
@@ -148,6 +143,12 @@ void Object::Update(float timeElapsed, bool night, Vector2 playerPos, bool &play
 		color->R_ = 0;
 		color->G_ = 0;
 		color->B_ = 0;
+	}
+
+	if (reset) {
+		color->R_ = 255;
+		color->G_ = 255;
+		color->B_ = 255;
 	}
 
 	color->ToCode();

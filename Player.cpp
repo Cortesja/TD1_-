@@ -25,10 +25,10 @@ Player::Player() {
 	jumpCount_ = 0;
 
 	easing = new Easing;
-	size_ = { 640.0f, 352.0f };
+	easing->size_ = { 640.0f, 352.0f };
 
-	easing->startPos_ = { float(kWindowWidth / 4), -500.0f - (size_.h / 2) };
-	easing->endPos_ = { float(kWindowWidth / 4), float(kWindowHeight / 2 - (size_.h / 2)) };
+	easing->startPos_ = { float(kWindowWidth / 4), -500.0f - (easing->size_.h / 2) };
+	easing->endPos_ = { float(kWindowWidth / 4), float(kWindowHeight / 2 - (easing->size_.h / 2)) };
 
 	easing->startFrame_ = 0;
 	easing->endFrame_ = 180;
@@ -40,7 +40,7 @@ Player::~Player() {
 	easing->~Easing();
 }
 
-void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]) {
+void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX], int clearTimer) {
 	Vector2 tempV = { 4.0f, 0.0f };
 
 	//マップチップ座標を取得　pos_ / ブロックサイズ
@@ -61,7 +61,7 @@ void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]
 
 	//左右移動
 	 
-	if (keys[DIK_A] && isAlive_ == true) {
+	if (keys[DIK_A] && isAlive_ == true && clearTimer < 1) {
 		p_.leftTop.x = (int)((pos_.x - tempV.x) / BLOCK_SIZE);
 		p_.leftTop.y = (int)(pos_.y / BLOCK_SIZE);
 
@@ -75,7 +75,7 @@ void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]
 			vel_.x = 0.0f;
 		}
 	}
-	else if (keys[DIK_D] && isAlive_ == true) {
+	else if (keys[DIK_D] && isAlive_ == true && clearTimer < 1) {
 		p_.rightTop.x = (int)((((pos_.x + size_.w) + tempV.x) - 1) / BLOCK_SIZE);
 		p_.rightTop.y = (int)(pos_.y / BLOCK_SIZE);
 
@@ -97,9 +97,9 @@ void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]
 	vel_.y += accel_.y;
 
 	//ジャンプ
-	if (keys[DIK_SPACE] && !preKeys[DIK_SPACE] && jumpCount_ == 0 && isAlive_ == true) {
+	if (keys[DIK_SPACE] && !preKeys[DIK_SPACE] && jumpCount_ == 0 && isAlive_ == true && clearTimer < 1) {
 		vel_.y = -11.0f;
-		//jumpCount_ += 1;
+		jumpCount_ += 1;
 	}
 
 	pos_.y += vel_.y;
@@ -118,7 +118,6 @@ void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]
 	p_.rightBottom.y = (int)(((pos_.y + size_.h) - 1) / BLOCK_SIZE);
 
 	pos_.x += vel_.x;
-
 }
 
 void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
@@ -212,16 +211,6 @@ void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
 		vel_.y = -20.0f;
 	}
 	//---------------------------------------
-
-	//isAlive_
-
-	/*if (!isAlive_) {
-		easing->StartEasingElastic(easing->isMove_);
-	}*/
-}
-
-void Player::ToScreen() {
-	//pos_ = main_->ToScreenV2(pos_);
 }
 
 void Player::Draw() {

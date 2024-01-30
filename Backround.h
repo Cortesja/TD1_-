@@ -7,7 +7,6 @@ class Backround
 {
 public:
 	Vector2 pos_[5];
-	Size size_;
 	int img_[5];
 	int timer_;
 	int aniTimer_;
@@ -24,7 +23,7 @@ public:
 
 	Vector2 GetPos();
 
-	void Update(float timeElapsed);
+	void Update(float timeElapsed, bool reset);
 	void Draw();
 	void DrawTitleScreen();
 };

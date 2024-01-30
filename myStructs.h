@@ -15,12 +15,10 @@ const int BLOCK_SIZE = 32;
 
 enum scene {
 	gameTitle,
-	gameColorSelect,
-	gameStageSelect,
 	gameStage1,
 	gameStage2,
 	gameStage3,
-	gameOver
+	gameClear
 };
 
 enum MapLegend {
@@ -30,7 +28,8 @@ enum MapLegend {
 	tobira,//3
 	togeUp,//4
 	togeDown,//5
-	bounce //6
+	bounce, //6
+	kanban
 };
 
 typedef struct Vector2 {

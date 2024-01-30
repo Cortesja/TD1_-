@@ -18,7 +18,7 @@ public:
 	~Object();
 	void ToScreen();
 	void Multiply(Matrix3x3 matrix);
-	void Update(float timeElapsed, bool night, Vector2 playerPos, bool &playerHit);
+	void Update(float timeElapsed, bool night, Vector2 playerPos, bool &playerHit, bool reset);
 	void Transform(Matrix3x3 matrix);
 
 	void Draw();
