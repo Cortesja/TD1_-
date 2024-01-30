@@ -23,10 +23,21 @@ Player::Player() {
 	isHit_ = false;
 	isAlive_ = true;
 	jumpCount_ = 0;
+
+	easing = new Easing;
+	size_ = { 640.0f, 352.0f };
+
+	easing->startPos_ = { float(kWindowWidth / 4), -500.0f - (size_.h / 2) };
+	easing->endPos_ = { float(kWindowWidth / 4), float(kWindowHeight / 2 - (size_.h / 2)) };
+
+	easing->startFrame_ = 0;
+	easing->endFrame_ = 180;
+
+	easing->img_ = Novice::LoadTexture("./resources/gameOver.png");
 }
 
 Player::~Player() {
-
+	easing->~Easing();
 }
 
 void Player::MovePlayer(char keys[], char preKeys[], int maptipmap[bMapY][bMapX]) {
@@ -169,6 +180,7 @@ void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
 		if (isAlive_) {
 			isHit_ = true;
 			isAlive_ = false;
+			easing->isMove_ = true;
 		}
 	}
 	if (maptipmap[p_.leftTop.y][p_.leftTop.x] == togeDown || maptipmap[p_.rightTop.y][p_.rightTop.x] == togeDown) {
@@ -178,6 +190,7 @@ void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
 		if (isAlive_) {
 			isHit_ = true;
 			isAlive_ = false;
+			easing->isMove_ = true;
 		}
 	}
 	//---------------------------------------
@@ -199,6 +212,12 @@ void Player::Update(int maptipmap[bMapY][bMapX], Maptip &maptip) {
 		vel_.y = -20.0f;
 	}
 	//---------------------------------------
+
+	//isAlive_
+
+	/*if (!isAlive_) {
+		easing->StartEasingElastic(easing->isMove_);
+	}*/
 }
 
 void Player::ToScreen() {

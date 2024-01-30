@@ -18,6 +18,7 @@ public:
 
 public:
 
+	~Color() {}
 	void ToCode();
 	void SetColor(int color);
 };

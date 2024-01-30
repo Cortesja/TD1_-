@@ -20,7 +20,7 @@ public:
 
 public:
 	Camera();
-	~Camera();
+	~Camera() {}
 	Vector2 ToScreenV2(Vector2 pos);
 	Position ToScreenV4(Position pos);
 

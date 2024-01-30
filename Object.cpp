@@ -29,6 +29,7 @@ Object::Object() {
 }
 
 Object::~Object() {
+	color->~Color();
 }
 
 //使われてない

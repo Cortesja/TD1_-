@@ -50,7 +50,9 @@ Backround::Backround() {
 }
 
 Backround::~Backround() {
-
+	easing->~Easing();
+	color->~Color();
+	camera->~Camera();
 }
 
 Vector2 Backround::GetPos() {

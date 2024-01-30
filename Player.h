@@ -1,6 +1,6 @@
 #pragma once
-#include "myStructs.h"
 #include "Camera.h"
+#include "Easing.h"
 
 class Player
 {
@@ -19,6 +19,8 @@ private:
 	int img_[4];
 	int imgDeath[4];
 	int color_;
+
+	Easing* easing;
 
 public:
 	bool isHit_;

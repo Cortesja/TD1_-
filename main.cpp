@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	int scene = gameTitle;
+	int scene = gameStage2;
 
 	Player* player = new Player();
 	Light* playerLight = new Light();
@@ -280,6 +280,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 	player->~Player();
+	haikei1->~Backround();
+	titleScreen->~Backround();
+	playerLight->~Light();
+	spike->~Object();
 
 	// ライブラリの終了
 	Novice::Finalize();
