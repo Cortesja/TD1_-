@@ -7,7 +7,7 @@
 #include "Light.h"
 #include "Color.h"
 
-const char kWindowTitle[] = "GC1C_07_コーテスジャレッドアレン";
+const char kWindowTitle[] = "GC1C_ひとめちゃん";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	int scene = gameStage2;
+	int scene = gameTitle;
 
 	Player* player = new Player();
 	Light* playerLight = new Light();
@@ -133,7 +133,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			Novice::SetBlendMode(BlendMode::kBlendModeNone);
 			player->Draw();
-			Novice::ScreenPrintf(42, 120, "time: %f", timeElapsed);
+			//Novice::ScreenPrintf(42, 120, "time: %f", timeElapsed);
 
 			if (player->isAlive_ == false) {
 				player->easing->StartEasingElastic(player->easing->isMove_);
@@ -374,7 +374,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			Novice::SetBlendMode(BlendMode::kBlendModeNone);
 			player->Draw();
-			Novice::ScreenPrintf(42, 120, "time: %f", timeElapsed);
+			//Novice::ScreenPrintf(42, 120, "time: %f", timeElapsed);
 
 			if (player->isAlive_ == false) {
 				player->easing->StartEasingElastic(player->easing->isMove_);
