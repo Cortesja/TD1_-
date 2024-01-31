@@ -221,10 +221,10 @@ void Player::Draw() {
 		Novice::DrawSprite((int)pos_.x, (int)pos_.y, imgDeath[0], 1.0f, 1.0f, 0.0f, color_);
 	}
 
-	Novice::ScreenPrintf(42, 42, "p_.leftTop[%d][%d] ", p_.leftTop.y, p_.leftTop.x);
-	Novice::ScreenPrintf(42, 62, "p_.leftBottom[%d][%d] ", p_.leftBottom.y, p_.leftBottom.x);
-	Novice::ScreenPrintf(242, 42, "p_.rightTop[%d][%d] ", p_.rightTop.y, p_.rightTop.x);
-	Novice::ScreenPrintf(242, 62, "p_.rightBottom[%d][%d] ", p_.rightBottom.y, p_.rightBottom.x);
+	//Novice::ScreenPrintf(42, 42, "p_.leftTop[%d][%d] ", p_.leftTop.y, p_.leftTop.x);
+	//Novice::ScreenPrintf(42, 62, "p_.leftBottom[%d][%d] ", p_.leftBottom.y, p_.leftBottom.x);
+	//Novice::ScreenPrintf(242, 42, "p_.rightTop[%d][%d] ", p_.rightTop.y, p_.rightTop.x);
+	//Novice::ScreenPrintf(242, 62, "p_.rightBottom[%d][%d] ", p_.rightBottom.y, p_.rightBottom.x);
 
 	//Novice::ScreenPrintf(42, 80, "pos_.x = %f", pos_.x);
 	//Novice::ScreenPrintf(42, 100, "pos_.y = %f", pos_.y);
