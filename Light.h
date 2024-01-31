@@ -1,8 +1,7 @@
 #pragma once
-#include "myStructs.h"
 #include "Color.h"
 
-class Light : Color
+class Light
 {
 public:
 	Vector2 pos_;
@@ -10,8 +9,10 @@ public:
 	int mode_;
 	int img_;
 
+	Color* color;
+
 public:
 	Light();
-	~Light();
+	~Light() { color->~Color(); }
 	void Draw(Vector2 playerPos);
 };

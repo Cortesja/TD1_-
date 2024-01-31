@@ -20,10 +20,6 @@ Camera::Camera() {
 	min_ = 25;
 }
 
-Camera::~Camera() {
-
-}
-
 Vector2 Camera::ToScreenV2(Vector2 playerPos) {
 
 	scroll_.x = playerPos.x - kWindowWidth / 2;

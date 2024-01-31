@@ -15,12 +15,10 @@ const int BLOCK_SIZE = 32;
 
 enum scene {
 	gameTitle,
-	gameColorSelect,
-	gameStageSelect,
 	gameStage1,
 	gameStage2,
 	gameStage3,
-	gameOver
+	gameClear
 };
 
 enum MapLegend {
@@ -29,7 +27,9 @@ enum MapLegend {
 	kagi,//2
 	tobira,//3
 	togeUp,//4
-	togeDown//5
+	togeDown,//5
+	bounce, //6
+	kanban
 };
 
 typedef struct Vector2 {
@@ -74,11 +74,14 @@ typedef struct Maptip final {
 	int map2[22][40];
 	int map3[22][40];
 	int map4[22][40];
+	Vector2 doorPos;
+	Size size;
 	int imgBlock[10];
 	int imgKagi[4];
 	int imgTobira[8];
 	int imgToge[6];
 	int timer;
+	int imgHandler;
 	bool kagiGet[2];
 	bool stageClear;
 
@@ -87,7 +90,6 @@ typedef struct Maptip final {
 	int min_;
 	int randx_;
 	int randy_;
-	bool isShake_;
 
 }Maptip;
 
@@ -105,3 +107,6 @@ Matrix3x3 MakeRotateMatrix(float theta);
 
 float convertToSec(clock_t time);
 float getElapsedTime(clock_t time);
+bool chkObjHit(Vector2 playerPos, Size playerSize, Vector2 objPos, Size objSize);
+
+int ChkVisible(float radius, Vector2 playerPos, Vector2 objectPos);

@@ -4,10 +4,10 @@
 class Color
 {
 public:
-	int R_ = 0;
-	int G_ = 0;
-	int B_ = 0;
-	int A_ = 0;
+	int R_ = 255;
+	int G_ = 255;
+	int B_ = 255;
+	int A_ = 255;
 
 	int maxR_ = 255;
 	int maxG_ = 255;
@@ -18,6 +18,7 @@ public:
 
 public:
 
+	~Color() {}
 	void ToCode();
 	void SetColor(int color);
 };
